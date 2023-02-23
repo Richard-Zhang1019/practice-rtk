@@ -5,20 +5,22 @@ export interface CountState {
   title: string
 }
 
+const initialState: CountState = {
+  value: 0,
+  title: 'redux toolkit pre'
+}
+
 // 创建一个 Slice
 export const countSlice = createSlice({
   name: 'counter',
-  initialState: {
-    value: 0,
-    title: 'redux toolkit pre'
-  } as CountState,
+  initialState,
   // 定义 reducers 并生成关联的操作
   reducers: {
-    increment: (state, param) => {
-      state.value += param.payload || 1
+    increment: (state, { payload }) => {
+      state.value += payload || 1
     },
-    decrement: (state, param) => {
-      state.value -= param.payload || 1
+    decrement: (state, { payload }) => {
+      state.value -= payload || 1
     }
   }
 })

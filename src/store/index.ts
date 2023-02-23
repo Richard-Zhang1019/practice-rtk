@@ -1,12 +1,14 @@
 import { configureStore } from '@reduxjs/toolkit'
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import countSlice from './modules/count'
+import movieSlice from './modules/movie'
 
 // configureStore创建一个redux数据
 const store = configureStore({
   // 合并多个Slice
   reducer: {
-    count: countSlice
+    count: countSlice,
+    movie: movieSlice
   }
 })
 

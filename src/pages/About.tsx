@@ -1,16 +1,17 @@
-import { useState } from 'react'
+import { JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal, useState } from 'react'
 import { Box, Flex, keyframes } from '@chakra-ui/react'
 import { FaReact } from 'react-icons/fa'
 import Button from 'antd/lib/button/button'
 
-import { RootState } from '@/store'
-import { useSelector, useDispatch } from 'react-redux'
+import { useAppSelector, useAppDispatch } from '../store'
 import { decrement, increment } from '../store/modules/count'
+import { getMovieData } from '../store/modules/movie'
 
 const About = () => {
   const [num, setNum] = useState<number>(1)
-  const { value } = useSelector((state: RootState) => state.count)
-  const dispatch = useDispatch()
+  const { value } = useAppSelector(state => state.count)
+  const { list } = useAppSelector(state => state.movie)
+  const dispatch = useAppDispatch()
 
   const rotate = keyframes`
     from { transform: rotate(0deg) }
@@ -27,6 +28,15 @@ const About = () => {
       <input type="text" onChange={e => setNum(Number(e.target.value))} /> 输入一个值 每次运算时加减这个值
       <Button onClick={() => dispatch(increment(num))}>+1</Button>
       <Button onClick={() => dispatch(decrement(num))}>-1</Button>
+
+      <Button onClick={() => dispatch(getMovieData())}>获取电影数据</Button>
+      <Box>
+        {(list as any[]).map((item: { albumId: Key | null | undefined; albumName: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined }) => {
+          return (
+            <Box key={item.albumId}>{item.albumName}</Box>
+          )
+        })}
+      </Box>
     </Flex>
   )
 }
